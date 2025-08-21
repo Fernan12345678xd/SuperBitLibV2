@@ -266,26 +266,32 @@ namespace SuperBitV2 {
     }
 
     // Servo 270° Geekservo 9g (LEGO compatible)
-    // Función calibrada para Micro:bit + PCA9685
+    // Función con mapeo de entrada a ángulo físico
 
     export function Servo2(num: enServo, value: number): void {
-        // Limitar value entre 0 y 270
-        if (value < 0) value = 0;
-        if (value > 270) value = 270;
+       // Limitar value entre 0 y 270
+       if (value < 0) value = 0;
+       if (value > 270) value = 270;
 
-        // Pulso mínimo y máximo calibrado (µs)
-        let pulseMin = 580;   // para 0°
-        let pulseMax = 2500;  // para 270°
+       // Mapear valor de entrada a ángulo físico deseado
+       // Ejemplo: entrada 0° → físico 0°
+       //          entrada 180° → físico 90°
+       //          entrada 270° → físico 270° (si quieres mantenerlo)
+       let physAngle = value * 90 / 180; // escala lineal: 0–180 → 0–90
 
-        // Convertir grados 0-270 a ancho de pulso µs
-        let us = value * (pulseMax - pulseMin) / 270 + pulseMin;
+       // Pulso mínimo y máximo calibrado (µs)
+       let pulseMin = 580;   // 0° físico
+       let pulseMax = 2500;  // 270° físico
 
-        // Convertir µs a valor PWM 12-bit para PCA9685
-        let pwm = us * 4096 / 20000;
+       // Convertir grados físicos a ancho de pulso µs
+       let us = physAngle * (pulseMax - pulseMin) / 270 + pulseMin;
 
-        // Enviar señal PWM al servo
-        setPwm(num, 0, Math.round(pwm));
-}
+       // Convertir µs a valor PWM 12-bit
+       let pwm = us * 4096 / 20000;
+
+       setPwm(num, 0, Math.round(pwm));
+   }
+
 
 
     //% blockId=SuperBitV2_Servo3 block="Servo(360°)|num %num|pos %pos|value %value"
