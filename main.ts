@@ -280,8 +280,8 @@ namespace SuperBitV2 {
        let physAngle = value * 90 / 180; // escala lineal: 0–180 → 0–90
 
        // Pulso mínimo y máximo calibrado (µs)
-       let pulseMin = 580;   // 0° físico
-       let pulseMax = 2500;  // 270° físico
+       let pulseMin = 600;   // 0° físico
+       let pulseMax = 2400;  // 270° físico
 
        // Convertir grados físicos a ancho de pulso µs
        let us = physAngle * (pulseMax - pulseMin) / 270 + pulseMin;
