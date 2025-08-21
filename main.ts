@@ -275,28 +275,24 @@ namespace SuperBitV2 {
    // Servo 270° Geekservo 9g (LEGO compatible)
 // Función pre-calibrada para Micro:bit + PCA9685
 
-   export function Servo2(num: enServo, value: number): void {
+  let pulseMin = 480;   // Ajusta ligeramente menor para llegar a 0°
+  let pulseMax = 2650;  // Ajusta ligeramente mayor para llegar a 270°
+
+  export function Servo2(num: enServo, value: number): void {
       // Limitar value entre 0 y 270
       if (value < 0) value = 0;
       if (value > 270) value = 270;
 
-      // Valores PWM pre-calibrados (12-bit, 0-4095) para PCA9685
-      let pwm = 0;
+      // Convertir grados (0-270) a ancho de pulso (µs)
+      let us = Math.map(value, 0, 270, pulseMin, pulseMax);
 
-      if (value <= 90) {
-          // Interpolación entre 0° y 90°
-          pwm = 102 + (value * (307 - 102) / 90);
-      } else if (value <= 180) {
-          // Interpolación entre 90° y 180°
-          pwm = 307 + ((value - 90) * (409 - 307) / 90);
-      } else {
-          // Interpolación entre 180° y 270°
-          pwm = 409 + ((value - 180) * (532 - 409) / 90);
-      }
+      // Convertir µs a valor PWM 12-bit para PCA9685
+      let pwm = us * 4096 / 20000;
 
       // Enviar señal PWM al servo
       setPwm(num, 0, Math.round(pwm));
   }
+
 
 
 
