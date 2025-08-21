@@ -272,8 +272,8 @@ namespace SuperBitV2 {
    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     // Variables para ajustar la calibración
     // Variables para calibración de 0 a 270 grados
-   let pulseMin = 500;   // pulso para 0°
-   let pulseMax = 2500;  // pulso para 270° (ajusta si no llega al final)
+   let pulseMin = 480;   // pulso para 0°
+   let pulseMax = 2600;  // pulso para 270° (ajusta si no llega al final)
 
     export function Servo2(num: enServo, value: number): void {
       // Limitar value entre 0 y 270
