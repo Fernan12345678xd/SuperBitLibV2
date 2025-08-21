@@ -4,7 +4,6 @@
   "SuperBitV2.Music|block": "音乐播放|%index",
   "SuperBitV2.Servo|block": "舵机(180)|编号 %num|角度 %value",
   "SuperBitV2.Servo2|block": "舵机(270)|编号 %num|角度 %value",
-  "geekservo_set_angle_270|block": "Servo 270° | Pin %pin | Angulo %angle",
   "SuperBitV2.Servo3|block": "舵机(360)|编号 %num|方向 %pos|速度 %value",
   "SuperBitV2.Servo4|block": "舵机(360-可旋转的)|编号 %num|方向 %pos|速度 %value",
   "SuperBitV2.MotorRun|block": " 直流电机|%index|速度(-255~255) %speed",
