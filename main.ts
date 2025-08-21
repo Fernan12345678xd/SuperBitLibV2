@@ -287,6 +287,25 @@ namespace SuperBitV2 {
 
       setPwm(num, 0, pwm);
   }
+	//% weight=99
+   //% blockId=geekservo_set_angle_270
+   //% block="Servo 270° | Pin %pin | Angulo %angle"
+   //% angle.min=0 angle.max=270
+   //% angle.defl=180
+   //% advanced=false
+   export function geekServo270(pin: AnalogPin, angle: number): void {
+      // Asegura que el ángulo esté dentro del rango de 0-270
+      angle = Math.constrain(angle, 0, 270);
+
+      // Mapea el ángulo de 0-270 a un pulso PWM para un servo de 270°
+      // Los valores 500 y 2500 son rangos estándar. Puedes ajustarlos para calibrar.
+      let us = Math.map(angle, 0, 270, 500, 2500);
+
+      // Convierte el pulso a un valor PWM para el micro:bit
+      let duty = us * 1024 / 20000;
+
+      pins.servoWritePin(pin, duty);
+  }
 
 
     //% blockId=SuperBitV2_Servo3 block="Servo(360°)|num %num|pos %pos|value %value"
