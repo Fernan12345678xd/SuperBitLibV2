@@ -270,19 +270,23 @@ namespace SuperBitV2 {
    //% blockGap=10
    //% num.min=1 num.max=4 value.min=0 value.max=270
    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
+    // Variables para ajustar la calibración
+    let pulseMin = 500; // Valor de pulso para 0 grados
+    let pulseMax = 2500; // Valor de pulso para 180 grados
+
     export function Servo2(num: enServo, value: number): void {
-    // Asegurar que value esté entre 0 y 180
-       if (value < 0) value = 0;
-       if (value > 180) value = 180;
+      // Asegurar que value esté entre 0 y 180
+      if (value < 0) value = 0;
+      if (value > 180) value = 180;
 
-       // Convertir 0-180° a ancho de pulso (µs)
-       let us = Math.map(value, 0, 180, 500, 2500);
+      // Convertir 0-180° a ancho de pulso (µs)
+      let us = Math.map(value, 0, 180, pulseMin, pulseMax);
 
-       // Convertir µs a valor PWM (20ms = 20000µs por ciclo a 50Hz)
-       let pwm = us * 4096 / 20000;
+      // Convertir µs a valor PWM
+      let pwm = us * 4096 / 20000;
 
-       setPwm(num, 0, pwm);
-   }
+      setPwm(num, 0, pwm);
+  }
 
 
     //% blockId=SuperBitV2_Servo3 block="Servo(360°)|num %num|pos %pos|value %value"
