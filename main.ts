@@ -271,41 +271,24 @@ namespace SuperBitV2 {
    //% num.min=1 num.max=4 value.min=0 value.max=270
    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=20
     // Variables para ajustar la calibración
-    let pulseMin = 500; // Valor de pulso para 0 grados
-    let pulseMax = 2500; // Valor de pulso para 180 grados
+    // Variables para calibración de 0 a 270 grados
+   let pulseMin = 500;   // pulso para 0°
+   let pulseMax = 2500;  // pulso para 270° (ajusta si no llega al final)
 
     export function Servo2(num: enServo, value: number): void {
-      // Asegurar que value esté entre 0 y 180
+      // Limitar value entre 0 y 270
       if (value < 0) value = 0;
-      if (value > 180) value = 180;
+      if (value > 270) value = 270;
 
-      // Convertir 0-180° a ancho de pulso (µs)
-      let us = Math.map(value, 0, 180, pulseMin, pulseMax);
+      // Convertir 0-270° a ancho de pulso (µs)
+      let us = Math.map(value, 0, 270, pulseMin, pulseMax);
 
-      // Convertir µs a valor PWM
+      // Convertir µs a valor PWM para PCA9685 (12-bit, 4096 pasos)
       let pwm = us * 4096 / 20000;
 
       setPwm(num, 0, pwm);
   }
-	//% weight=99
-   //% blockId=geekservo_set_angle_270
-   //% block="Servo 270° | Pin %pin | Angulo %angle"
-   //% angle.min=0 angle.max=270
-   //% angle.defl=180
-   //% advanced=false
-   export function geekServo270(pin: AnalogPin, angle: number): void {
-      // Asegura que el ángulo esté dentro del rango de 0-270
-      angle = Math.constrain(angle, 0, 270);
 
-      // Mapea el ángulo de 0-270 a un pulso PWM para un servo de 270°
-      // Los valores 500 y 2500 son rangos estándar. Puedes ajustarlos para calibrar.
-      let us = Math.map(angle, 0, 270, 500, 2500);
-
-      // Convierte el pulso a un valor PWM para el micro:bit
-      let duty = us * 1024 / 20000;
-
-      pins.servoWritePin(pin, duty);
-  }
 
 
     //% blockId=SuperBitV2_Servo3 block="Servo(360°)|num %num|pos %pos|value %value"
