@@ -269,35 +269,24 @@ namespace SuperBitV2 {
     // Función calibrada para Micro:bit + PCA9685
 
     export function Servo2(num: enServo, value: number): void {
-         // Limitar value entre 0 y 270
+        // Limitar value entre 0 y 270
         if (value < 0) value = 0;
         if (value > 270) value = 270;
 
-        // Valores calibrados de pulso (µs) para 0°, 90°, 180°, 270°
-        let pulse0 = 580;    // ligeramente menor para que llegue a 0°
-        let pulse90 = 1140;
-        let pulse180 = 1860;
-        let pulse270 = 2500; // ligeramente mayor para que llegue a 270°
+        // Pulso mínimo y máximo calibrado (µs)
+        let pulseMin = 580;   // para 0°
+        let pulseMax = 2500;  // para 270°
 
-        let us: number;
+        // Convertir grados 0-270 a ancho de pulso µs
+        let us = value * (pulseMax - pulseMin) / 270 + pulseMin;
 
-        if (value <= 90) {
-            // Interpolación 0° → 90°
-            us = pulse0 + (pulse90 - pulse0) * value / 90;
-        } else if (value <= 180) {
-            // Interpolación 90° → 180°
-            us = pulse90 + (pulse180 - pulse90) * (value - 90) / 90;
-        } else {
-            // Interpolación 180° → 270°
-            us = pulse180 + (pulse270 - pulse180) * (value - 180) / 90;
-        }
+        // Convertir µs a valor PWM 12-bit para PCA9685
+        let pwm = us * 4096 / 20000;
 
-    // Convertir µs a valor PWM 12-bit para PCA9685
-    let pwm = us * 4096 / 20000;
-
-    // Enviar señal PWM al servo
-    setPwm(num, 0, Math.round(pwm));
+        // Enviar señal PWM al servo
+        setPwm(num, 0, Math.round(pwm));
 }
+
 
     //% blockId=SuperBitV2_Servo3 block="Servo(360°)|num %num|pos %pos|value %value"
     //% weight=96
