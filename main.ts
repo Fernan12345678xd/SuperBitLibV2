@@ -273,7 +273,7 @@ namespace SuperBitV2 {
     export function Servo2(num: enServo, value: number): void {
 
         // 50hz: 20,000 us
-        let newvalue = Math.map(value, 0, 200, 0, 180);
+        let newvalue = Math.map(value, 0, 180, 0, 180);
         let us = (newvalue * 1800 / 180 + 600); // 0.6 ~ 2.4
         let pwm = us * 4096 / 20000;
         setPwm(num, 0, pwm);
